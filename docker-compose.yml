@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management  # Versão com painel de administração
+    container_name: rabbitmq
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"  # Porta do broker AMQP
+      - "15672:15672"  # Interface web do RabbitMQ
+    expose:
+      - 5672
+      - 15672
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  flower:
+    image: mher/flower
+    container_name: flower
+    restart: always
+    depends_on:
+      - rabbitmq
+    ports:
+      - "5555:5555"  # Interface web do Flower
+    expose:
+      - 5555
+    environment:
+      - CELERY_BROKER_URL=amqp://user:password@rabbitmq:5672//
+    command: ["celery", "flower", "--broker=amqp://user:password@rabbitmq:5672//"]
+
+volumes:
+  rabbitmq_data:
+    driver: local
