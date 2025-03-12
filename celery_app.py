@@ -21,3 +21,5 @@ app.conf.task_routes = {
     "tasks.generate_report": {"queue": "reports"},
     "tasks.run_backup": {"queue": "backups"},
 }
+
+app.conf.worker_hijack_root_logger = False

@@ -1,8 +1,12 @@
+import logging
 import time
 
 from celery.result import AsyncResult
 
 from tasks import generate_report, run_backup, send_email
+
+logger = logging.getLogger(__name__)
+
 
 EMAIL_DEMAND_IDS = [1, 2, 3, 4, 5]
 REPORT_DEMAND_IDS = [6, 7, 8, 9, 10]
