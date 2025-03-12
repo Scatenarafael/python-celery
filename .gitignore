@@ -4,6 +4,7 @@ venv
 .venv
 /.venv/*
 
+*.sqlite
 
 __pycache__
 
